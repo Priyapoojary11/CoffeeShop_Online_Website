@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Profile Page</title>
+    <link rel="stylesheet" href="static/css/styles.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
+</head>
+
+<body style= "background-color:rgb(184, 196, 212)">
+    <br><br><a href="index.html" style="color: black"><i class="fas fa-home">&nbsp;</i> Home</a><br><br><br>
+    
+
+    <div class="profile-container">
+        <center><h2>Profile Page</h2><br>
+            
+        <!-- Profile Photo -->
+        <div class="profile-img">
+            <img src="profile_pics\womens.jpg" id="profile-photo" alt="Profile Photo" width="120"/><br/>
+            <button class="edit-btn" onclick="document.getElementById('file-input').click()">Change Photo</button>
+            <button class="delete-btn" onclick="deletePhoto()">Delete Photo</button>
+            <input type="file" id="file-input" style="display:none" onchange="updatePhoto(event)"/>
+        </div>
+
+        <!-- Profile Details -->
+        <div id="profile-details">
+            <h3 id="username-view">Username: User1 </h3><br/>
+            <p id="address-view">Address: #12-4 Sri Sannidi,<br> Bajpe, Mangalore</p><br/>
+            <p id="mobile-view">Contact Number:98798746537</p><br/>
+            <p id="email-view">Email: user1@gmail.com</p>
+        </div>
+
+        <!-- Edit/Add Buttons -->
+        <button class="edit-btn" onclick="editDetails()">Edit Profile</button>
+
+        <!-- Form to Edit/Add Details -->
+        <div id="form-section" class="form-field" style="display:none;">
+            <form onsubmit="saveDetails(); return false;">
+
+                <div class="form-group" style="display: inline-block; align-items: center; margin-bottom: 10px;">
+                    <label-secondary for="username">User Name:</label-secondary>
+                    <input type="text" id="username" name="username" placeholder="Enter Username"/>
+                </div><br/>
+                <div class="form-group" style="display: inline-block; align-items: center; margin-bottom: 10px;">
+                    <label-secondary for="address">Address:</label-secondary>
+                    <input type="text" id="address" name="address" placeholder="Enter Address"/>
+                </div><br/>
+                <div class="form-group" style="display: inline-block; align-items: center; margin-bottom: 10px;">
+                    <label-secondary for="mobile">Mobile Number:</label-secondary>
+                    <input type="text" id="mobile" name="mobile" placeholder="Enter Mobile Number"/>
+                </div><br/>
+                <div class="form-group" style="display: inline-block; align-items: center; margin-bottom: 10px;">
+                    <label-secondary for="email">Email ID:</label-secondary>
+                    <input type="email" id="email" name="email" placeholder="Enter Email"/>
+                </div><br/>
+                <button type="submit" class="save-btn">Save Changes</button>
+            </form>
+            </div>
+        </div>
+
+        <script>
+            window.onload = function () {
+            document.getElementById('username-view').innerText = 'Username: ' + (localStorage.getItem('username') || 'User1');
+            document.getElementById('address-view').innerText = 'Address: ' + (localStorage.getItem('address') || '#12-4 Sri Devi, Mangalore');
+            document.getElementById('mobile-view').innerText = 'Contact Number: ' + (localStorage.getItem('mobile') || '98798746537');
+            document.getElementById('email-view').innerText = 'Email: ' + (localStorage.getItem('email') || 'user1@gmail.com');
+            document.getElementById('profile-photo').src = localStorage.getItem('photo') || 'profile_pics/womens.jpg';
+            };
+
+        function editDetails() {
+            document.getElementById('form-section').style.display = 'block';
+            document.getElementById('username').value = localStorage.getItem('username') || '';
+            document.getElementById('address').value = localStorage.getItem('address') || '';
+            document.getElementById('mobile').value = localStorage.getItem('mobile') || '';
+            document.getElementById('email').value = localStorage.getItem('email') || '';
+            }
+
+        function saveDetails() {
+            const username = document.getElementById('username').value.trim();
+            const address = document.getElementById('address').value.trim();
+            const mobile = document.getElementById('mobile').value.trim();
+            const email = document.getElementById('email').value.trim();
+
+            localStorage.setItem('username', username || 'User1');
+            localStorage.setItem('address', address || '#12-4 Sri Devi, Mangalore');
+            localStorage.setItem('mobile', mobile || '98798746537');
+            localStorage.setItem('email', email || 'user1@gmail.com');
+
+            document.getElementById('username-view').innerText = 'Username: ' + (username || 'User1');
+            document.getElementById('address-view').innerText = 'Address: ' + (address || '#12-4 Sri Devi, Mangalore');
+            document.getElementById('mobile-view').innerText = 'Contact Number: ' + (mobile || '98798746537');
+            document.getElementById('email-view').innerText = 'Email: ' + (email || 'user1@gmail.com');
+
+            document.getElementById('form-section').style.display = 'none';
+            alert('Profile Updated Successfully!');
+        }
+
+        function deletePhoto() {
+            localStorage.removeItem('photo');
+            document.getElementById('profile-photo').src = 'profile_pics/womens.jpg';
+            alert('Photo Removed!');
+        }
+
+        function updatePhoto(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                document.getElementById('profile-photo').src = e.target.result;
+                localStorage.setItem('photo', e.target.result);
+                };
+                reader.readAsDataURL(file);
+            }
+            }
+        </script></center>
+</body>
+</html>

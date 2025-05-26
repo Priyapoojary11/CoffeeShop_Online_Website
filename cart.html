@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>My Coffee Orders</title>
+    <link rel="stylesheet" href="static/css/styles.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
+</head>
+<body class="primary-body">
+    <header>
+        <h1>Your Shopping Cart</h1><br>
+        <nav>
+            <a href="index.html"><i class="fas fa-home"></i> Back to Home</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="header">My Cart</div><br>
+
+            <!-- Cart Items -->
+            <div class="items-list">
+                <div class="item" data-id="cappuccino" data-price="120" data-quantity="2" data-name="Cappuccino">
+                    <img src="static/media/cappuccino.jpg" alt="Cappuccino" />
+                    <div class="details">
+                        <div class="title">Cappuccino</div>
+                        <div class="info quantity">Quantity: 2</div>
+                        <div class="info price">Price: ₹ 120</div>
+                        <div class="info total">Total: ₹ 240</div>
+                    </div>
+                    <button class="remove-btn" title="Remove one quantity"><i class="fas fa-trash-alt"></i> Remove One</button>
+                    <button class="buy-now-btn" title="Buy this item now"><i class="fas fa-credit-card"></i> Buy this now</button>
+                </div>
+
+                <div class="item" data-id="espresso" data-price="150" data-quantity="1" data-name="Espresso">
+                    <img src="static/media/espresso.jpg" alt="Espresso" />
+                    <div class="details">
+                        <div class="title">Espresso</div>
+                        <div class="info quantity">Quantity: 1</div>
+                        <div class="info price">Price: ₹ 150</div>
+                        <div class="info total">Total: ₹ 150</div>
+                    </div>
+                    <button class="remove-btn" title="Remove one quantity"><i class="fas fa-trash-alt"></i> Remove One</button>
+                    <button class="buy-now-btn" title="Buy this item now"><i class="fas fa-credit-card"></i> Buy this now</button>
+                </div>
+            </div>
+
+            <div class="summary">
+                <strong id="total-amount">Total : ₹ 390</strong>
+            </div>
+
+            <div class="continue">
+                <button><a style="color: green" href="checkout.html"><i class="fas fa-check-circle"></i> Proceed to Checkout</a></button>
+            </div>
+
+            <!-- Empty Cart Message -->
+            <div class="empty-cart" style="margin-top: 20px; display: none;">
+                <p><i class="fas fa-broom"></i> Empty Cart</p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <a style="color: white" href="index.html"><i class="fas fa-shopping-bag"></i> Continue Shopping</a><br><br>
+        <p>&copy; 2024 Coffee Shop. All rights reserved.</p>
+    </footer>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const itemsList = document.querySelector(".items-list");
+    const totalAmountEl = document.getElementById("total-amount");
+    const emptyCartMsg = document.querySelector(".empty-cart");
+    const continueBtn = document.querySelector(".continue");
+
+    function updateTotal() {
+        let total = 0;
+        const items = itemsList.querySelectorAll(".item");
+        items.forEach(item => {
+            const price = parseInt(item.getAttribute("data-price"), 10);
+            const quantity = parseInt(item.getAttribute("data-quantity"), 10);
+            total += price * quantity;
+        });
+
+        totalAmountEl.textContent = `Total : ₹ ${total}`;
+
+        if (total === 0) {
+            emptyCartMsg.style.display = "block";
+            continueBtn.style.display = "none";
+            totalAmountEl.style.display = "none";
+        } else {
+            emptyCartMsg.style.display = "none";
+            continueBtn.style.display = "block";
+            totalAmountEl.style.display = "block";
+        }
+    }
+
+    // Update item total and quantity display after quantity change
+    function updateItemDisplay(item) {
+        const quantity = parseInt(item.getAttribute("data-quantity"), 10);
+        const price = parseInt(item.getAttribute("data-price"), 10);
+
+        // Update quantity text
+        const quantityEl = item.querySelector(".quantity");
+        quantityEl.textContent = `Quantity: ${quantity}`;
+
+        // Update total price text
+        const totalEl = item.querySelector(".total");
+        totalEl.textContent = `Total: ₹ ${price * quantity}`;
+    }
+
+    itemsList.addEventListener("click", function(e) {
+        const removeBtn = e.target.closest(".remove-btn");
+        const buyNowBtn = e.target.closest(".buy-now-btn");
+
+        if (removeBtn) {
+            const item = removeBtn.closest(".item");
+            if (item) {
+                let quantity = parseInt(item.getAttribute("data-quantity"), 10);
+                quantity = quantity - 1;
+
+                if (quantity <= 0) {
+                    // Remove the item entirely
+                    item.remove();
+                } else {
+                    // Update quantity attribute
+                    item.setAttribute("data-quantity", quantity);
+                    updateItemDisplay(item);
+                }
+
+                updateTotal();
+            }
+        } else if (buyNowBtn) {
+            const item = buyNowBtn.closest(".item");
+            if (item) {
+                // Redirect with item data in query params
+                const id = item.getAttribute('data-id');
+                const name = encodeURIComponent(item.getAttribute('data-name'));
+                const price = item.getAttribute('data-price');
+                const quantity = item.getAttribute('data-quantity');
+
+                const query = `?id=${id}&name=${name}&price=${price}&quantity=${quantity}`;
+                window.location.href = 'payment.html' + query;
+            }
+        }
+    });
+
+    updateTotal();
+});
+</script>
+
+</body>
+</html>
