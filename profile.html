@@ -9,22 +9,21 @@
 </head>
 
 <body style= "background-color:rgb(184, 196, 212)">
-    <br><br><a href="index.html" style="color: black"><i class="fas fa-home">&nbsp;</i> Home</a><br><br><br>
+    <br><br><a href="index.html" style="color: black"><i class="fas fa-home">&nbsp;</i> Home</a>
     
-
     <div class="profile-container">
         <center><h2>Profile Page</h2><br>
             
         <!-- Profile Photo -->
         <div class="profile-img">
-            <img src="profile_pics\womens.jpg" id="profile-photo" alt="Profile Photo" width="120"/><br/>
+            <img src="profile_pics\pic.jpg" id="profile-photo" alt="Profile Photo" style="border-radius: 50%; width: 150px; height: 150px;" /><br/><br>
             <button class="edit-btn" onclick="document.getElementById('file-input').click()">Change Photo</button>
             <button class="delete-btn" onclick="deletePhoto()">Delete Photo</button>
             <input type="file" id="file-input" style="display:none" onchange="updatePhoto(event)"/>
         </div>
 
         <!-- Profile Details -->
-        <div id="profile-details">
+        <br><div id="profile-details">
             <h3 id="username-view">Username: User1 </h3><br/>
             <p id="address-view">Address: #12-4 Sri Sannidi,<br> Bajpe, Mangalore</p><br/>
             <p id="mobile-view">Contact Number:98798746537</p><br/>
@@ -32,7 +31,7 @@
         </div>
 
         <!-- Edit/Add Buttons -->
-        <button class="edit-btn" onclick="editDetails()">Edit Profile</button>
+        <br><button class="edit-btn" onclick="editDetails()">Edit Profile</button>
 
         <!-- Form to Edit/Add Details -->
         <div id="form-section" class="form-field" style="display:none;">
@@ -55,7 +54,7 @@
                     <input type="email" id="email" name="email" placeholder="Enter Email"/>
                 </div><br/>
                 <button type="submit" class="save-btn">Save Changes</button>
-            </form>
+            </form><br>
             </div>
         </div>
 
@@ -65,7 +64,7 @@
             document.getElementById('address-view').innerText = 'Address: ' + (localStorage.getItem('address') || '#12-4 Sri Devi, Mangalore');
             document.getElementById('mobile-view').innerText = 'Contact Number: ' + (localStorage.getItem('mobile') || '98798746537');
             document.getElementById('email-view').innerText = 'Email: ' + (localStorage.getItem('email') || 'user1@gmail.com');
-            document.getElementById('profile-photo').src = localStorage.getItem('photo') || 'profile_pics/womens.jpg';
+            document.getElementById('profile-photo').src = localStorage.getItem('photo') || 'profile_pics/pic.jpg';
             };
 
         function editDetails() {
@@ -98,7 +97,7 @@
 
         function deletePhoto() {
             localStorage.removeItem('photo');
-            document.getElementById('profile-photo').src = 'profile_pics/womens.jpg';
+            document.getElementById('profile-photo').src = 'profile_pics/pic.jpg';
             alert('Photo Removed!');
         }
 
@@ -114,5 +113,9 @@
             }
             }
         </script></center>
+
+    <footer>
+        <p>&copy; 2024 Coffee Shop. All rights reserved.</p>
+    </footer>
 </body>
 </html>

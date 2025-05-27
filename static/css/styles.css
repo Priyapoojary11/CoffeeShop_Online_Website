@@ -383,7 +383,7 @@ label::before {
     padding: 10px 15px; 
     border-radius: 5px; }
         
-.delete-btn { 
+.delete-btn{ 
     background-color: #f44336; 
 }
 
@@ -396,4 +396,11 @@ label::before {
     width: 80%; 
     padding: 8px; 
     margin: 5px 0; 
+}
+
+.remove-btn{
+    color: red;
+}
+.buy-now-btn{
+    color:  green;
 }
